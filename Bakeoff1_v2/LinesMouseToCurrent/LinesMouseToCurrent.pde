@@ -231,12 +231,15 @@ void drawLine() {
   stroke(153,75);
   
   // Current to next
+  /*
   line(thisBounds.x + 20, thisBounds.y + 20, nextBounds.x + 20, nextBounds.y + 20);
   
   // Previous to current
+  
   if (previousBounds != null) {
     line(previousBounds.x + 20, previousBounds.y + 20, thisBounds.x + 20, thisBounds.y + 20);
   }
+  */
   
   // Mouse to current
   line(mouseX, mouseY, thisBounds.x + 20, thisBounds.y + 20);
