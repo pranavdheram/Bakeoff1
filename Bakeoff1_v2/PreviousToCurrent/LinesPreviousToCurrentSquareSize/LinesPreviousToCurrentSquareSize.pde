@@ -21,9 +21,9 @@ int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
 Robot robot; //initalized in setup 
 boolean firstTime = true;
-Integer lastTrial;
-Integer thisTrial;
-Integer nextTrial;
+Integer previousTrial = null;
+Integer thisTrial = null;
+Integer nextTrial = null;
 
 
 int numRepeats = 1; //sets the number of times each button repeats in the test
@@ -185,33 +185,42 @@ void drawButton(int i)
   
   Rectangle bounds = getButtonLocation(i);
   //Rectangle predicted_bounds = getButtonLocation(i);
-  if(trialNum<(trials.size()-1)) {
+  if(trialNum<(trials.size() - 1)) {
     if (trials.get(trialNum) == i) { // see if current button is the target 
       fill(255, 0, 0); // if so, fill red
       thisTrial = i;
     }
-    else if (trials.get(trialNum+1) == i){ // see if the button is the next button 
+    else if (trials.get(trialNum + 1) == i) { // see if the button is the next button 
       //fill(40);
       //rect(bounds.x-10, bounds.y-10, bounds.width+20, bounds.height+20); //draw button
       fill(75);
       nextTrial = i;
     }
-    else
+    else {
       fill(75); // if not, fill gray
+    }
+      
+    if (trialNum >= 1) {
+      if (trials.get(trialNum - 1) == i) { // see if the button is the last button 
+        previousTrial = i;
+      }
+    }
   }
   else {
-    if (trials.get(trialNum) == i) // see if current button is the target
+    if (trials.get(trialNum) == i) {// see if current button is the target
       fill(255, 0, 0); // if so, fill red
-    else
+    }
+    else {
       fill(75); // if not, fill gray
+    }
   }
       
-     if ((mouseX > bounds.x -25 && mouseX < bounds.x + bounds.width + 25) && (mouseY > bounds.y -25  && mouseY < bounds.y + bounds.height +25)) 
+  if ((mouseX > bounds.x -25 && mouseX < bounds.x + bounds.width + 25) && (mouseY > bounds.y -25  && mouseY < bounds.y + bounds.height +25)) 
     { 
        rect(bounds.x -10, bounds.y-10, bounds.width+20, bounds.height+20); //draw button 
-    } 
-   else
-      rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
+  }
+    
+    rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
   //rect(predicted_bounds.x, predicted_bounds.y, predicted_bounds.width, predicted_bounds.height); //draw button
   
 }
@@ -219,12 +228,26 @@ void drawButton(int i)
 void drawLine() {
   Rectangle thisBounds = getButtonLocation(thisTrial);
   Rectangle nextBounds = getButtonLocation(nextTrial);
+  Rectangle previousBounds = null;
+  if (previousTrial != null) {
+    previousBounds= getButtonLocation(previousTrial);
+  }
   
   stroke(153,75);
   
-  line(thisBounds.x + 20, thisBounds.y + 20, nextBounds.x + 20, nextBounds.y + 20);
+  // Current to next
+  //line(thisBounds.x + 20, thisBounds.y + 20, nextBounds.x + 20, nextBounds.y + 20);
   
-  stroke(0);
+  // Previous to current
+  
+  if (previousBounds != null) {
+    line(previousBounds.x + 20, previousBounds.y + 20, thisBounds.x + 20, thisBounds.y + 20);
+  }
+  
+  // Mouse to current
+  //line(mouseX, mouseY, thisBounds.x + 20, thisBounds.y + 20);
+  
+  noStroke();
 }
 
 /*
