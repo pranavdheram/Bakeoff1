@@ -217,7 +217,7 @@ void drawLine() {
   
   stroke(153,75);
   
-  line(thisBounds.x, thisBounds.y, nextBounds.x, nextBounds.y);
+  line(thisBounds.x + 20, thisBounds.y + 20, nextBounds.x + 20, nextBounds.y + 20);
   
   stroke(0);
 }
