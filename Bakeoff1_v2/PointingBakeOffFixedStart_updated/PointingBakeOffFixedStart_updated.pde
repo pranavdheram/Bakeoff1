@@ -9,8 +9,8 @@ import processing.core.PApplet;
 
 //int margin = 200; //set the margin around the squares
 
-int xmargin = 800;
-int ymargin = 400;
+int xmargin = 600;
+int ymargin = 300;
 final int padding = 50; // padding between buttons and also their width/height
 final int buttonSize = 40; // padding between buttons and also their width/height
 ArrayList<Integer> trials = new ArrayList<Integer>(); //contains the order of buttons that activate in the test
@@ -131,7 +131,7 @@ if (trialNum >= trials.size()) //if task is over, just return
   trialNum++; //Increment trial number
 
   //in this example code, we move the mouse back to the middle
-  robot.mouseMove(width/2, (height)/2); //on click, move cursor to roughly center of window!
+  //robot.mouseMove(width/2, (height)/2); //on click, move cursor to roughly center of window!
 }  
 
 //probably shouldn't have to edit this method
@@ -149,16 +149,19 @@ void drawButton(int i)
   //Rectangle predicted_bounds = getButtonLocation(i);
   if(trialNum<(trials.size()-1))
     if (trials.get(trialNum) == i) // see if current button is the target
-      fill(0, 255, 0); // if so, fill red
-    else if (trials.get(trialNum+1) == i) // see if the button is the next button
-      fill(255,0,0);
+      fill(255, 0, 0); // if so, fill red
+    else if (trials.get(trialNum+1) == i){ // see if the button is the next button
+      fill(40);
+      rect(bounds.x-10, bounds.y-10, bounds.width+20, bounds.height+20); //draw button
+      fill(75);
+    }
     else
-      fill(100); // if not, fill gray
+      fill(75); // if not, fill gray
   else
     if (trials.get(trialNum) == i) // see if current button is the target
-      fill(0, 255, 0); // if so, fill red
+      fill(255, 0, 0); // if so, fill red
     else
-      fill(100); // if not, fill gray
+      fill(75); // if not, fill gray
       
   rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
   //rect(predicted_bounds.x, predicted_bounds.y, predicted_bounds.width, predicted_bounds.height); //draw button
@@ -209,8 +212,8 @@ void keyPressed()
 
   Rectangle bounds = getButtonLocation(trials.get(trialNum));
 
- //check to see if mouse cursor is inside button 
-  if ((mouseX > bounds.x && mouseX < bounds.x + bounds.width) && (mouseY > bounds.y && mouseY < bounds.y + bounds.height)) // test to see if hit was within bounds
+ //check to see if mouse cursor is inside button, increased bounds  
+  if ((mouseX > bounds.x-25  && mouseX < bounds.x + bounds.width + 25) && (mouseY > bounds.y - 25 && mouseY < bounds.y + bounds.height + 25)) // test to see if hit was within bounds
   {
     System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
     hits++; 
