@@ -20,11 +20,18 @@ int finishTime = 0; //records the time of the final click
 int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
 Robot robot; //initalized in setup 
+boolean firstTime = true;
+
 
 int numRepeats = 1; //sets the number of times each button repeats in the test
 
 void setup()
 {
+  trialNum = 0; //the current trial number (indexes into trials array above)
+   startTime = 0; // time starts when the first click is captured
+  finishTime = 0; //records the time of the final click
+  hits = 0; //number of successful clicks
+  misses = 0; //number of missed clicks
   //size(700, 700); // set the size of the window
   fullScreen();
   //noCursor(); //hides the system cursor if you want
@@ -59,7 +66,23 @@ void setup()
 void draw()
 {
   background(0); //set background to black
+  if(firstTime){
+    drawInstruction();
+  }
+  else{
+    drawPlay(); 
+  }
 
+}
+void drawInstruction()
+{
+    fill(255); //set fill color to white
+    text("Follow the red square by hovering over the box and pressing the spacebar!", width / 2, height / 2);
+  
+}
+
+void drawPlay()
+{
   if (trialNum >= trials.size()) //check to see if test is over
   {
     float timeTaken = (finishTime-startTime) / 1000f;
@@ -94,13 +117,20 @@ void draw()
 
   //fill(255, 0, 0, 200); // set fill color to translucent red
   //ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
-
 }
 
 void mousePressed() // test to see if hit was in target!
 {
-if (trialNum >= trials.size()) //if task is over, just return
+  
+  if(firstTime){
+     firstTime = false;
+     return;
+  }
+  
+  if (trialNum >= trials.size()){ //if task is over, just return
+    setup();
     return;
+  }
 
   if (trialNum == 0) //check if first click, if so, start timer
   {  println("starting timer");
@@ -197,7 +227,12 @@ void keyPressed()
   //https://processing.org/reference/keyTyped_.html
   //https://processing.org/reference/keyCode.html
   
-    if (trialNum >= trials.size()) //if task is over, just return
+  if(firstTime){
+     firstTime = false;
+     return;
+  }
+  
+  if (trialNum >= trials.size()) //if task is over, just return
     return;
 
   if (trialNum == 0) //check if first click, if so, start timer
@@ -212,7 +247,7 @@ void keyPressed()
 
   Rectangle bounds = getButtonLocation(trials.get(trialNum));
 
- //check to see if mouse cursor is inside button, increased bounds  
+ //check to see if mouse cursor is inside button, increased bounds   
   if ((mouseX > bounds.x-25  && mouseX < bounds.x + bounds.width + 25) && (mouseY > bounds.y - 25 && mouseY < bounds.y + bounds.height + 25)) // test to see if hit was within bounds
   {
     System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
