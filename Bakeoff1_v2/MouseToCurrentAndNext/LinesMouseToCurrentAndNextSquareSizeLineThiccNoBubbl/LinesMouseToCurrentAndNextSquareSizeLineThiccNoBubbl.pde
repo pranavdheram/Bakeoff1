@@ -35,6 +35,7 @@ void setup()
   finishTime = 0; //records the time of the final click
   hits = 0; //number of successful clicks
   misses = 0; //number of missed clicks
+  trials = new ArrayList<Integer>();
   //size(700, 700); // set the size of the window
   fullScreen();
   //noCursor(); //hides the system cursor if you want
@@ -216,7 +217,7 @@ void drawButton(int i)
   }
       
   if ((mouseX > bounds.x -25 && mouseX < bounds.x + bounds.width + 25) && (mouseY > bounds.y -25  && mouseY < bounds.y + bounds.height +25)) 
-    { 
+  { 
        rect(bounds.x -10, bounds.y-10, bounds.width+20, bounds.height+20); //draw button 
   }
     
@@ -229,24 +230,28 @@ void drawLine() {
   Rectangle thisBounds = getButtonLocation(thisTrial);
   Rectangle nextBounds = getButtonLocation(nextTrial);
   Rectangle previousBounds = null;
-  /*
   if (previousTrial != null) {
     previousBounds= getButtonLocation(previousTrial);
   }
-  */
-  stroke(153,75);
   
+  stroke(153,75);
+  strokeWeight(8);
+  fill(5);
   // Current to next
   line(thisBounds.x + 20, thisBounds.y + 20, nextBounds.x + 20, nextBounds.y + 20);
+  //ellipse(nextBounds.x+20, nextBounds.y+20, 8, 8); 
   /*
   // Previous to current
+  
   if (previousBounds != null) {
     line(previousBounds.x + 20, previousBounds.y + 20, thisBounds.x + 20, thisBounds.y + 20);
   }
+  */
   
   // Mouse to current
   line(mouseX, mouseY, thisBounds.x + 20, thisBounds.y + 20);
-  */
+  //ellipse(thisBounds.x+20, thisBounds.y+20, 8, 8); 
+  
   noStroke();
 }
 
